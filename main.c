@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "uthash.h"
+#include "stack.h"
 #define TRUE 1
 #define FALSE 0
 
@@ -40,6 +41,21 @@ typedef struct{
     State *accept_states;
     char *name;
 }DFA;
+
+typedef struct{
+    int n_states;
+    int n_alphabet;
+    int n_accepts;
+
+    char *alphabet;
+
+    State *states;
+    State *curr_state;
+
+    State *start_state;
+    State *accept_states;
+    char *name;
+}NFA;
 
 typedef struct Node{
     State *state;
@@ -604,7 +620,18 @@ DFA dfa_intersection_construction(DFA m_1, DFA m_2, char *name){
     return c;
 }
 
-
+/*
+DFA dfa_minimization_algorithm(DFA m_1, char* name){
+    DFA min_m = {0, 0, 0, 0, };
+    int nerode_table[m_1.states][m_1.states];
+    int i, j;
+    for(i = 0; i < m_1.states; i++){
+        for(j = 0; i < m_1.states; j++){
+            nerode_table[i][j] = FALSE;
+        }
+    }
+}
+*/
 
 
 
@@ -714,3 +741,14 @@ void destructQueue(Queue *queue){
     free(queue);
 }
 
+State *nonFinalStates(State *s, DFA *m){
+    int nonfinal_states = m->n_states - m->n_accepts;
+    State *nonfinal_states = malloc(max_states * sizeof(State));
+    int n_nonfinal_states = 0;
+    for(int i = 0; i < m->n_states; i++){
+        if(dfa_is_accept(m, m->states[i]) == FALSE){
+            nonfinal_states[n_nonfinal_states++] = m->states[i];
+        }
+    }
+    return nonfinal_states;
+}
