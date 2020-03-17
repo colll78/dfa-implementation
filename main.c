@@ -82,6 +82,7 @@ void add_state(DFA *m, State *s);
 void dfa_reset(DFA *m);
 int dfa_is_accept(DFA *m, State *s);
 int dfa_is_start_state(DFA *m, State *s);
+int dfa_equivalence_problem(DFA *m1, DFA *m2);
 int dfa_emptiness_problem(DFA *m);
 void dfa_add_start_state(DFA *m, char *name, int t_num);
 void dfa_add_accept_state(DFA *m, char *name, int t_num);
